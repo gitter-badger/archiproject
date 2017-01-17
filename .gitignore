@@ -42,6 +42,7 @@ jspm_packages
 
 # app and assets
 public/dist/
+public/lib/
 uploads
 modules/users/client/img/profile/uploads
 config/env/local.js
