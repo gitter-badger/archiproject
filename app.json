@@ -1,0 +1,6 @@
+{
+  "name": "ArchiProject",
+  "description": "A project manager and archive for architects.",
+  "repository": "https://github.com/simplyspoke/archiproject",
+  "keywords": ["node", "express", "mean"]
+}
