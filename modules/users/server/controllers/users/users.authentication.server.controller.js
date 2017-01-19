@@ -35,9 +35,6 @@ exports.signup = function (req, res) {
       });
     } else {
       // Remove sensitive data before login
-      user.password = undefined;
-      user.salt = undefined;
-
       req.login(user, function (err) {
         if (err) {
           res.status(400).send(err);
@@ -57,9 +54,6 @@ exports.signin = function (req, res, next) {
     if (err || !user) {
       res.status(422).send(info);
     } else {
-      // Remove sensitive data before login
-      user.password = undefined;
-      user.salt = undefined;
 
       req.login(user, function (err) {
         if (err) {

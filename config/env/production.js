@@ -4,7 +4,7 @@ var fs = require('fs');
 
 module.exports = {
   secure: {
-    ssl: true,
+    ssl: false,
     privateKey: './config/sslcerts/key.pem',
     certificate: './config/sslcerts/cert.pem',
     caBundle: './config/sslcerts/cabundle.crt'
@@ -47,15 +47,11 @@ module.exports = {
       json: false
     }
   },
+  sessionSecret: process.env.SESSION_SECRET || 'asdfs678sdg68sd',
   google: {
     clientID: process.env.GOOGLE_ID || 'APP_ID',
     clientSecret: process.env.GOOGLE_SECRET || 'APP_SECRET',
     callbackURL: '/api/auth/google/callback'
-  },
-  github: {
-    clientID: process.env.GITHUB_ID || 'APP_ID',
-    clientSecret: process.env.GITHUB_SECRET || 'APP_SECRET',
-    callbackURL: '/api/auth/github/callback'
   },
   mailer: {
     from: process.env.MAILER_FROM || 'MAILER_FROM',

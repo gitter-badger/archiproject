@@ -16,6 +16,9 @@ module.exports = function (config) {
     passReqToCallback: true
   },
   function (req, accessToken, refreshToken, profile, done) {
+    if (profile._json.domain !== process.env.GSUITE_DOMAIN) {
+      return console.error('Not a member of the domain.');
+    }
     // Set the provider data and include tokens
     var providerData = profile._json;
     providerData.accessToken = accessToken;
