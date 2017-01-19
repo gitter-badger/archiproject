@@ -55,6 +55,12 @@ module.exports = {
       }
     }
   },
+  harvest_oauth: {
+    subdomain: process.env.HARVEST_SUBDOMAIN || '',
+    client_id: process.env.HARVEST_ID || '',
+    secret: process.env.HARVEST_SECRET || '',
+    redirect_uri: process.env.HARVEST_REDIRECTURI || ''
+  },
   shared: {
     owasp: {
       allowPassphrases: true,
