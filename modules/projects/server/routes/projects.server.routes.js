@@ -4,7 +4,9 @@
  * Module dependencies
  */
 var projectsPolicy = require('../policies/projects.server.policy'),
-  projects = require('../controllers/projects.server.controller');
+  passport = require('passport'),
+  projects = require('../controllers/projects.server.controller'),
+  harvest = require('../controllers/harvest.server.controller');
 
 module.exports = function(app) {
   // Projects collection routes
@@ -12,8 +14,8 @@ module.exports = function(app) {
     .get(projects.list)
     .post(projects.create);
 
-  app.route('/api/projects/harvest/auth').all(projectsPolicy.isAllowed).get(projects.oauthCall);
-  app.route('/api/projects/harvest/auth/callback').all(projectsPolicy.isAllowed).get(projects.oauthCallback);
+  app.route('/api/harvest').get(harvest.authorizeCall);
+  app.route('/api/harvest/callback').get(harvest.authorizeCallback);
 
   // Single project routes
   app.route('/api/projects/:projectId').all(projectsPolicy.isAllowed)

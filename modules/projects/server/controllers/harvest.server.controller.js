@@ -6,116 +6,39 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Project = mongoose.model('Project'),
-  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
+  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+  config = require(path.resolve('./config/config')),
+  passport = require('passport');
+
+// let harvest = new Harvest({
+//   subdomain: config.harvest.authorizationURL,
+//   identifier: config.harvest.clientID,
+//   secret: config.harvest.clientSecret,
+//   redirect_uri: config.harvest.callbackURL
+// });
 
 /**
- * Create an project
+ * OAuth provider call
  */
-exports.create = function (req, res) {
-  var project = new Project(req.body);
-  project.user = req.user;
+exports.authorizeCall = function(req, res, next) {
+  if (req.query && req.query.redirect_to)
+    req.session.redirect_to = req.query.redirect_to;
 
-  project.save(function (err) {
-    if (err) {
-      return res.status(422).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      res.json(project);
-    }
-  });
-};
 
-/**
- * Show the current project
- */
-exports.read = function (req, res) {
-  // convert mongoose document to JSON
-  var project = req.project ? req.project.toJSON() : {};
+  passport.authorize('harvest', function(err, user, info) {
+    console.log(err);
+    console.log(user);
+    console.log(info);
+  })(req, res, next);
 
-  // Add a custom field to the Project, for determining if the current User is the "owner".
-  // NOTE: This field is NOT persisted to the database, since it doesn't exist in the Project model.
-  project.isCurrentUserOwner = !!(req.user && project.user && project.user._id.toString() === req.user._id.toString());
-
-  res.json(project);
-};
-
-/**
- * Update an project
- */
-exports.update = function (req, res) {
-  var project = req.project;
-
-  project.title = req.body.title;
-  project.content = req.body.content;
-
-  project.save(function (err) {
-    if (err) {
-      return res.status(422).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      res.json(project);
-    }
-  });
-};
-
-/**
- * Delete an project
- */
-exports.delete = function (req, res) {
-  var project = req.project;
-
-  project.remove(function (err) {
-    if (err) {
-      return res.status(422).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      res.json(project);
-    }
-  });
 };
 
 /**
  * List of Projects
  */
-exports.oauthCallback = function (req, res) {
+exports.authorizeCallback = function(req, res) {
   console.log(req);
   res.json({
     message: 'It worked!'
-  });
-  // Project.find().sort('-created').populate('user', 'displayName').exec(function (err, projects) {
-  //   if (err) {
-  //     return res.status(422).send({
-  //       message: errorHandler.getErrorMessage(err)
-  //     });
-  //   } else {
-  //     res.json(projects);
-  //   }
-  // });
-};
-
-/**
- * Project middleware
- */
-exports.projectByID = function (req, res, next, id) {
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).send({
-      message: 'Project is invalid'
-    });
-  }
-
-  Project.findById(id).populate('user', 'displayName').exec(function (err, project) {
-    if (err) {
-      return next(err);
-    } else if (!project) {
-      return res.status(404).send({
-        message: 'No project with that identifier has been found'
-      });
-    }
-    req.project = project;
-    next();
   });
 };

@@ -55,11 +55,12 @@ module.exports = {
       }
     }
   },
-  harvest_oauth: {
-    subdomain: process.env.HARVEST_SUBDOMAIN || '',
-    client_id: process.env.HARVEST_ID || '',
-    secret: process.env.HARVEST_SECRET || '',
-    redirect_uri: process.env.HARVEST_REDIRECTURI || ''
+  harvest: {
+    authorizationURL: process.env.HARVEST_AUTHORIZATIONURL || '',
+    tokenURL: process.env.HARVEST_TOKENURL || '',
+    clientID: process.env.HARVEST_ID || '',
+    clientSecret: process.env.HARVEST_SECRET || '',
+    callbackURL: process.env.HARVEST_CALLBACKURL || ''
   },
   shared: {
     owasp: {
