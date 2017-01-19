@@ -13,24 +13,12 @@
       update: {
         method: 'PUT'
       },
-      updatePassword: {
-        method: 'POST',
-        url: '/api/users/password'
-      },
       deleteProvider: {
         method: 'DELETE',
         url: '/api/users/accounts',
         params: {
           provider: '@provider'
         }
-      },
-      sendPasswordResetToken: {
-        method: 'POST',
-        url: '/api/auth/forgot'
-      },
-      resetPasswordWithToken: {
-        method: 'POST',
-        url: '/api/auth/reset/:token'
       },
       signup: {
         method: 'POST',
@@ -43,21 +31,10 @@
     });
 
     angular.extend(Users, {
-      changePassword: function (passwordDetails) {
-        return this.updatePassword(passwordDetails).$promise;
-      },
       removeSocialAccount: function (provider) {
         return this.deleteProvider({
           provider: provider // api expects provider as a querystring parameter
         }).$promise;
-      },
-      requestPasswordReset: function (credentials) {
-        return this.sendPasswordResetToken(credentials).$promise;
-      },
-      resetPassword: function (token, passwordDetails) {
-        return this.resetPasswordWithToken({
-          token: token // api expects token as a parameter (i.e. /:token)
-        }, passwordDetails).$promise;
       },
       userSignup: function (credentials) {
         return this.signup(credentials).$promise;
