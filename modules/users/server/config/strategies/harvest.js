@@ -5,7 +5,8 @@
  */
 var passport = require('passport'),
   OAuth2Strategy = require('passport-oauth2'),
-  users = require('../../controllers/users.server.controller');
+  mongoose = require('mongoose'),
+  User = mongoose.model('User');
 
 module.exports = function(config) {
   // Use google strategy
@@ -16,9 +17,16 @@ module.exports = function(config) {
     clientSecret: config.harvest.clientSecret,
     callbackURL: config.harvest.callbackURL,
     passReqToCallback: true
-  }, function(accessToken, refreshToken, profile, cb) {
+  }, function(req, accessToken, refreshToken, profile, cb) {
     console.log('accessToken', accessToken);
     console.log('refreshToken', refreshToken);
     console.log('profile', profile);
+
+    User.findById(req.user._id, function(err, user) {
+      if (err) {
+        return cb(err);
+      }
+      console.log(user);
+    });
   }));
 };
