@@ -12,21 +12,6 @@
     var Users = $resource('/api/users', {}, {
       update: {
         method: 'PUT'
-      },
-      deleteProvider: {
-        method: 'DELETE',
-        url: '/api/users/accounts',
-        params: {
-          provider: '@provider'
-        }
-      },
-      signup: {
-        method: 'POST',
-        url: '/api/auth/signup'
-      },
-      signin: {
-        method: 'POST',
-        url: '/api/auth/signin'
       }
     });
 
@@ -36,31 +21,11 @@
           provider: provider // api expects provider as a querystring parameter
         }).$promise;
       },
-      userSignup: function (credentials) {
-        return this.signup(credentials).$promise;
-      },
       userSignin: function (credentials) {
         return this.signin(credentials).$promise;
       }
     });
 
     return Users;
-  }
-
-  // TODO this should be Users service
-  angular
-    .module('users.admin.services')
-    .factory('AdminService', AdminService);
-
-  AdminService.$inject = ['$resource'];
-
-  function AdminService($resource) {
-    return $resource('/api/users/:userId', {
-      userId: '@_id'
-    }, {
-      update: {
-        method: 'PUT'
-      }
-    });
   }
 }());
