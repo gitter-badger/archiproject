@@ -6,6 +6,7 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Project = mongoose.model('Project'),
+  User = mongoose.model('User'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   config = require(path.resolve('./config/config')),
   passport = require('passport');
@@ -37,8 +38,26 @@ exports.authorizeCall = function(req, res, next) {
  * List of Projects
  */
 exports.authorizeCallback = function(req, res) {
-  console.log(req);
-  res.json({
-    message: 'It worked!'
+  console.log(req.user);
+
+  User.findById(req.user._id, function(err, user) {
+    if (err) {
+      return console.log(err);
+    }
+    console.log(user);
+  });
+  passport.authorize('twitter-authz', { failureRedirect: '/account' },
+  function(req, res) {
+    var user = req.user;
+    var account = req.account;
+
+    // Associate the Twitter account with the logged-in user.
+    account.userId = user.id;
+    account.save(function(err) {
+      if (err) { return self.error(err); }
+      res.json({
+        message: 'It worked!'
+      });
+    });
   });
 };

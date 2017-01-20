@@ -15,18 +15,18 @@ module.exports = function(config) {
     tokenURL: config.harvest.tokenURL,
     clientID: config.harvest.clientID,
     clientSecret: config.harvest.clientSecret,
-    callbackURL: config.harvest.callbackURL,
-    passReqToCallback: true
-  }, function(req, accessToken, refreshToken, profile, cb) {
+    callbackURL: config.harvest.callbackURL
+  }, function(accessToken, refreshToken, profile, cb) {
     console.log('accessToken', accessToken);
     console.log('refreshToken', refreshToken);
     console.log('profile', profile);
+    console.log('profile', profile);
 
-    User.findById(req.user._id, function(err, user) {
-      if (err) {
-        return cb(err);
-      }
-      console.log(user);
-    });
+    // User.findById(req.user._id, function(err, user) {
+    //   if (err) {
+    //     return cb(err);
+    //   }
+    //   console.log(user);
+    // });
   }));
 };
