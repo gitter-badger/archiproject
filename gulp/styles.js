@@ -19,8 +19,9 @@ gulp.task('cssmin', function() {
 
 // Sass task
 gulp.task('sass', function() {
+  console.log(defaultAssets.client.sass);
   return gulp.src(defaultAssets.client.sass)
     .pipe(plugins.sass())
     .pipe(plugins.autoprefixer())
-    .pipe(gulp.dest('./modules/'));
+    .pipe(gulp.dest('./public/assets/css/'));
 });
