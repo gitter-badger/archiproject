@@ -75,8 +75,10 @@ var UserSchema = new Schema({
   providerData: {},
   additionalProvidersData: {},
   harvest: {
-    userId: String,
-    account: String
+    code: String,
+    token: String,
+    refreshToken: String,
+    expires: Date
   },
   roles: {
     type: [{
