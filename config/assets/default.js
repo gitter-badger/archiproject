@@ -55,11 +55,11 @@ module.exports = {
   server: {
     gulpConfig: ['gulpfile.js'],
     allJS: ['server.js', 'config/**/*.js', '/server/**/*.js'],
-    models: '/server/**/*.model.js',
+    models: 'server/**/*.model.js',
     routes: ['server/!(core)/*.routes.js', 'server/core/**/*.routes.js'],
     sockets: 'server/**/sockets/**/*.js',
     config: ['server/**/*.config.js'],
-    policies: 'server/**/*.policies.js',
+    policies: 'server/**/*.policy.js',
     views: ['server/**/*.view.html']
   }
 };

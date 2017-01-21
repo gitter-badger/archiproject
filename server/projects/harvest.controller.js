@@ -6,10 +6,10 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Project = mongoose.model('Project'),
-  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+  errorHandler = require(path.resolve('./server/core/errors/errors.controller')),
   config = require(path.resolve('./config/config')),
   passport = require('passport');
-  
+
 /**
  * OAuth provider call
  */

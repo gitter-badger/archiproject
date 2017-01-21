@@ -3,10 +3,10 @@
 /**
  * Module dependencies
  */
-var projectsPolicy = require('../policies/projects.server.policy'),
+var projectsPolicy = require('./projects.policy'),
   passport = require('passport'),
-  projects = require('../controllers/projects.server.controller'),
-  harvest = require('../controllers/harvest.server.controller');
+  projects = require('./projects.controller'),
+  harvest = require('./harvest.controller');
 
 module.exports = function(app) {
   // Projects collection routes
