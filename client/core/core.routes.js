@@ -29,13 +29,13 @@
     $stateProvider
       .state('home', {
         url: '/',
-        templateUrl: '/modules/core/client/views/home.client.view.html',
+        templateUrl: '/client/core/home.tpl.html',
         controller: 'HomeController',
         controllerAs: 'vm'
       })
       .state('not-found', {
         url: '/not-found',
-        templateUrl: '/modules/core/client/views/404.client.view.html',
+        templateUrl: '/client/core/404.tpl.html',
         controller: 'ErrorController',
         controllerAs: 'vm',
         params: {
@@ -50,7 +50,7 @@
       })
       .state('bad-request', {
         url: '/bad-request',
-        templateUrl: '/modules/core/client/views/400.client.view.html',
+        templateUrl: '/client/core/400.tpl.html',
         controller: 'ErrorController',
         controllerAs: 'vm',
         params: {
@@ -65,7 +65,7 @@
       })
       .state('forbidden', {
         url: '/forbidden',
-        templateUrl: '/modules/core/client/views/403.client.view.html',
+        templateUrl: '/client/core/403.tpl.html',
         data: {
           ignoreState: true,
           pageTitle: 'Forbidden'

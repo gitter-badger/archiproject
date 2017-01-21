@@ -16,7 +16,7 @@
       })
       .state('admin.projects.list', {
         url: '',
-        templateUrl: '/modules/projects/client/views/admin/list-projects.client.view.html',
+        templateUrl: '/client/projects/list-projects.tpl.html',
         controller: 'ProjectsAdminListController',
         controllerAs: 'vm',
         data: {
@@ -25,7 +25,7 @@
       })
       .state('admin.projects.create', {
         url: '/create',
-        templateUrl: '/modules/projects/client/views/admin/form-project.client.view.html',
+        templateUrl: '/client/projects/form-project.tpl.html',
         controller: 'ProjectsAdminController',
         controllerAs: 'vm',
         data: {
@@ -37,7 +37,7 @@
       })
       .state('admin.projects.edit', {
         url: '/:projectId/edit',
-        templateUrl: '/modules/projects/client/views/admin/form-project.client.view.html',
+        templateUrl: '/client/projects/form-project.tpl.html',
         controller: 'ProjectsAdminController',
         controllerAs: 'vm',
         data: {

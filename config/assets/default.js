@@ -39,9 +39,9 @@ module.exports = {
     ],
     js: [
       'client/core/app/config.js',
-      'client/core/client/app/init.js',
-      'client/*/*.js',
-      'client/*/**/*.js'
+      'client/core/app/init.js',
+      'client/*/*.module.js',
+      'client/**/*.js'
     ],
     img: [
       'modules/**/*/img/**/*.jpg',

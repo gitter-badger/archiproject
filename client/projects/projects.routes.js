@@ -16,7 +16,7 @@
       })
       .state('projects.list', {
         url: '',
-        templateUrl: '/modules/projects/client/views/list-projects.client.view.html',
+        templateUrl: '/client/projects/list-projects.tpl.html',
         controller: 'ProjectsListController',
         controllerAs: 'vm',
         data: {
@@ -25,7 +25,7 @@
       })
       .state('projects.view', {
         url: '/:projectId',
-        templateUrl: '/modules/projects/client/views/view-project.client.view.html',
+        templateUrl: '/client/projects/view-project.tpl.html',
         controller: 'ProjectsController',
         controllerAs: 'vm',
         resolve: {
