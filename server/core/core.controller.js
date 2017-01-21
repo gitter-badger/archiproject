@@ -24,7 +24,7 @@ exports.renderIndex = function (req, res) {
     };
   }
 
-  res.render('server/core/index', {
+  res.render('core/index', {
     user: JSON.stringify(safeUserObject),
     sharedConfig: JSON.stringify(config.shared)
   });
@@ -34,7 +34,7 @@ exports.renderIndex = function (req, res) {
  * Render the server error page
  */
 exports.renderServerError = function (req, res) {
-  res.status(500).render('server/core/errors/500', {
+  res.status(500).render('core/errors/500', {
     error: 'Oops! Something went wrong...'
   });
 };
@@ -47,7 +47,7 @@ exports.renderNotFound = function (req, res) {
 
   res.status(404).format({
     'text/html': function () {
-      res.render('server/core/errors/404', {
+      res.render('core/errors/404', {
         url: req.originalUrl
       });
     },

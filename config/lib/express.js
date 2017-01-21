@@ -92,10 +92,10 @@ module.exports.initMiddleware = function (app) {
  */
 module.exports.initViewEngine = function (app) {
   app.engine('tpl.html', hbs.express4({
-    extname: 'templates.html'
+    extname: '.tpl.html'
   }));
-  app.set('view engine', 'tpl.html');
-  app.set('views', path.resolve('./'));
+  app.set('view engine', '.tpl.html');
+  app.set('views', path.resolve('./server'));
 };
 
 /**
