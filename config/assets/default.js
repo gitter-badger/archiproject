@@ -29,19 +29,16 @@ module.exports = {
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },
     css: [
-      'modules/*/client/{css,less,scss}/*.css'
-    ],
-    less: [
-      'modules/*/client/less/*.less'
+      'public/assets/**/*.css'
     ],
     sass: [
-      'modules/*/client/scss/*.scss'
+      'client/**/*.scss'
     ],
     js: [
-      'modules/core/client/app/config.js',
-      'modules/core/client/app/init.js',
-      'modules/*/client/*.js',
-      'modules/*/client/**/*.js'
+      'client/core/app/config.js',
+      'client/core/app/init.js',
+      'client/*/*.module.js',
+      'client/**/*.js'
     ],
     img: [
       'modules/**/*/img/**/*.jpg',
@@ -49,17 +46,17 @@ module.exports = {
       'modules/**/*/img/**/*.gif',
       'modules/**/*/img/**/*.svg'
     ],
-    views: ['modules/*/client/views/**/*.html'],
+    views: ['client/**/*.tpl.html'],
     templates: ['build/templates.js']
   },
   server: {
     gulpConfig: ['gulpfile.js'],
-    allJS: ['server.js', 'config/**/*.js', 'modules/*/server/**/*.js'],
-    models: 'modules/*/server/models/**/*.js',
-    routes: ['modules/!(core)/server/routes/**/*.js', 'modules/core/server/routes/**/*.js'],
-    sockets: 'modules/*/server/sockets/**/*.js',
-    config: ['modules/*/server/config/*.js'],
-    policies: 'modules/*/server/policies/*.js',
-    views: ['modules/*/server/views/*.html']
+    allJS: ['server.js', 'config/**/*.js', '/server/**/*.js'],
+    models: 'server/**/*.model.js',
+    routes: ['server/!(core)/*.routes.js', 'server/core/**/*.routes.js'],
+    sockets: 'server/**/sockets/**/*.js',
+    config: ['server/**/*.config.js'],
+    policies: 'server/**/*.policy.js',
+    views: ['server/**/*.view.html']
   }
 };

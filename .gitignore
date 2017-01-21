@@ -43,15 +43,14 @@ jspm_packages
 # app and assets
 public/dist/
 public/lib/
-uploads
-modules/users/client/img/profile/uploads
+public/uploads
+public/assets
 config/env/local.js
 config/env/local-*.js
 *.pem
 
 # Compiled less and sass files
 modules/*/client/scss/*.css
-modules/*/client/less/*.css
 
 # Ignoring gh-pages branch
 _site/

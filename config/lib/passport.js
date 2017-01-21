@@ -91,11 +91,11 @@ module.exports.initMiddleware = function (app) {
  * Configure view engine
  */
 module.exports.initViewEngine = function (app) {
-  app.engine('tpl.html', hbs.express4({
-    extname: '.tpl.html'
+  app.engine('server.view.html', hbs.express4({
+    extname: '.server.view.html'
   }));
-  app.set('view engine', '.tpl.html');
-  app.set('views', path.resolve('./server'));
+  app.set('view engine', 'server.view.html');
+  app.set('views', path.resolve('./'));
 };
 
 /**

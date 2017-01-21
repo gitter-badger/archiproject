@@ -6,18 +6,10 @@
 var config = require('../config'),
   mongoose = require('./mongoose'),
   express = require('./express'),
-  chalk = require('chalk'),
-  seed = require('./seed');
-
-function seedDB() {
-  if (config.seedDB && config.seedDB.seed) {
-    console.log(chalk.bold.red('Warning:  Database seeding is turned on'));
-    seed.start();
-  }
-}
+  chalk = require('chalk');
 
 // Initialize Models
-mongoose.loadModels(seedDB);
+mongoose.loadModels();
 
 module.exports.init = function init(callback) {
   mongoose.connect(function (db) {

@@ -55,6 +55,13 @@ module.exports = {
       }
     }
   },
+  harvest: {
+    authorizationURL: process.env.HARVEST_AUTHORIZATIONURL || '',
+    tokenURL: process.env.HARVEST_TOKENURL || '',
+    clientID: process.env.HARVEST_ID || '',
+    clientSecret: process.env.HARVEST_SECRET || '',
+    callbackURL: process.env.HARVEST_CALLBACKURL || ''
+  },
   shared: {
     owasp: {
       allowPassphrases: true,
