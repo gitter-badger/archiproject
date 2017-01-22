@@ -10,15 +10,12 @@ var projectsPolicy = require('./projects.policy'),
 
 module.exports = function(app) {
   // Projects collection routes
-  app.route('/api/projects').all(projectsPolicy.isAllowed)
+  app.route('/api/projects').all(harvest.refreshToken, projectsPolicy.isAllowed)
     .get(projects.list)
     .post(projects.create);
 
-  app.route('/api/harvest').get(harvest.authorizeCall);
-  app.route('/api/harvest/callback').get(harvest.authorizeCallback);
-
   // Single project routes
-  app.route('/api/projects/:projectId').all(projectsPolicy.isAllowed)
+  app.route('/api/projects/:projectId').all(harvest.refreshToken, projectsPolicy.isAllowed)
     .get(projects.read)
     .put(projects.update)
     .delete(projects.delete);

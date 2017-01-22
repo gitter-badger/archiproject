@@ -16,60 +16,9 @@ var noReturnUrls = [
 ];
 
 /**
- * Signup
- */
-exports.signup = function (req, res) {
-  // For security measurement we remove the roles from the req.body object
-  delete req.body.roles;
-
-  // Init user and add missing fields
-  var user = new User(req.body);
-  user.provider = 'local';
-  user.displayName = user.firstName + ' ' + user.lastName;
-
-  // Then save the user
-  user.save(function (err) {
-    if (err) {
-      return res.status(422).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      // Remove sensitive data before login
-      req.login(user, function (err) {
-        if (err) {
-          res.status(400).send(err);
-        } else {
-          res.json(user);
-        }
-      });
-    }
-  });
-};
-
-/**
- * Signin after passport authentication
- */
-exports.signin = function (req, res, next) {
-  passport.authenticate('local', function (err, user, info) {
-    if (err || !user) {
-      res.status(422).send(info);
-    } else {
-
-      req.login(user, function (err) {
-        if (err) {
-          res.status(400).send(err);
-        } else {
-          res.json(user);
-        }
-      });
-    }
-  })(req, res, next);
-};
-
-/**
  * Signout
  */
-exports.signout = function (req, res) {
+exports.signout = function(req, res) {
   req.logout();
   res.redirect('/');
 };
@@ -77,31 +26,42 @@ exports.signout = function (req, res) {
 /**
  * OAuth provider call
  */
-exports.oauthCall = function (strategy, scope) {
-  return function (req, res, next) {
+exports.oauthCall = function(strategy, scope) {
+  if (strategy === 'harvest') {
+    console.log('enter');
+  }
+
+  return function(req, res, next) {
     if (req.query && req.query.redirect_to)
       req.session.redirect_to = req.query.redirect_to;
 
+    if (strategy === 'harvest') {
+      if (req.user.harvest.expires.getTime() > new Date().getTime()) {
+        console.log('hit');
+        return res.redirect('/');
+      }
+    }
+
     // Authenticate
-    passport.authenticate(strategy, scope)(req, res, next);
+    // passport.authenticate(strategy, scope)(req, res, next);
   };
 };
 
 /**
  * OAuth callback
  */
-exports.oauthCallback = function (strategy) {
-  return function (req, res, next) {
+exports.oauthCallback = function(strategy) {
+  return function(req, res, next) {
 
     // info.redirect_to contains inteded redirect path
-    passport.authenticate(strategy, function (err, user, info) {
+    passport.authenticate(strategy, function(err, user, info) {
       if (err) {
         return res.redirect('/authentication/signin?err=' + encodeURIComponent(errorHandler.getErrorMessage(err)));
       }
       if (!user) {
         return res.redirect('/authentication/signin');
       }
-      req.login(user, function (err) {
+      req.login(user, function(err) {
         if (err) {
           return res.redirect('/authentication/signin');
         }
@@ -113,9 +73,34 @@ exports.oauthCallback = function (strategy) {
 };
 
 /**
+ * Harvest Callback
+ */
+exports.harvestCallback = function(req, res) {
+  return function(req, res, next) {
+
+    // info.redirect_to contains inteded redirect path
+    passport.authenticate('harvest', function(err, user, info) {
+      console.log(err, user, info);
+      if (err) {
+        return res.redirect('/authentication/signin?err=' + encodeURIComponent(errorHandler.getErrorMessage(err)));
+      }
+      if (!user) {
+        return res.redirect('/authentication/signin');
+      }
+      req.login(user, function(err) {
+        if (err) {
+          return res.redirect('/authentication/signin');
+        }
+        return res.redirect(info.redirect_to || '/');
+      });
+    })(req, res, next);
+  };
+};
+
+/**
  * Helper function to save or update a OAuth user profile
  */
-exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
+exports.saveOAuthUserProfile = function(req, providerUserProfile, done) {
   // Setup info object
   var info = {};
 
@@ -143,14 +128,14 @@ exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
       $or: [mainProviderSearchQuery, additionalProviderSearchQuery]
     };
 
-    User.findOne(searchQuery, function (err, user) {
+    User.findOne(searchQuery, function(err, user) {
       if (err) {
         return done(err);
       } else {
         if (!user) {
           var possibleUsername = providerUserProfile.username || ((providerUserProfile.email) ? providerUserProfile.email.split('@')[0] : '');
 
-          User.findUniqueUsername(possibleUsername, null, function (availableUsername) {
+          User.findUniqueUsername(possibleUsername, null, function(availableUsername) {
             user = new User({
               firstName: providerUserProfile.firstName,
               lastName: providerUserProfile.lastName,
@@ -167,7 +152,7 @@ exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
             user.email = providerUserProfile.email;
 
             // And save the user
-            user.save(function (err) {
+            user.save(function(err) {
               return done(err, user, info);
             });
           });
@@ -193,7 +178,7 @@ exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
       user.markModified('additionalProvidersData');
 
       // And save the user
-      user.save(function (err) {
+      user.save(function(err) {
         return done(err, user, info);
       });
     } else {
@@ -205,7 +190,7 @@ exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
 /**
  * Remove OAuth provider
  */
-exports.removeOAuthProvider = function (req, res, next) {
+exports.removeOAuthProvider = function(req, res, next) {
   var user = req.user;
   var provider = req.query.provider;
 
@@ -225,13 +210,13 @@ exports.removeOAuthProvider = function (req, res, next) {
     user.markModified('additionalProvidersData');
   }
 
-  user.save(function (err) {
+  user.save(function(err) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      req.login(user, function (err) {
+      req.login(user, function(err) {
         if (err) {
           return res.status(400).send(err);
         } else {

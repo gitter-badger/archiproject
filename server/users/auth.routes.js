@@ -10,8 +10,6 @@ module.exports = function (app) {
   var users = require('./users.controller');
 
   // Setting up the users authentication api
-  // app.route('/api/auth/signup').post(users.signup);
-  app.route('/api/auth/signin').post(users.signin);
   app.route('/api/auth/signout').get(users.signout);
 
   // Setting the google oauth routes
@@ -22,4 +20,7 @@ module.exports = function (app) {
     ]
   }));
   app.route('/api/auth/google/callback').get(users.oauthCallback('google'));
+
+  app.route('/api/auth/harvest').get(users.oauthCallback('harvest'));
+  app.route('/api/auth/harvest/callback').get(users.harvestCallback('harvest'));
 };

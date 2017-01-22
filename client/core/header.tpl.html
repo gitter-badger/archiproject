@@ -32,13 +32,10 @@
       <li ui-sref-active="active">
         <a ui-sref="authentication">Sign In</a>
       </li>
-      <li>
-        <a ng-click="vm.callOauthProvider('/api/harvest')">Harvest</a>
-      </li>
     </ul>
     <ul class="nav navbar-nav navbar-right" ng-show="vm.authentication.user">
       <li>
-        <a ng-click="vm.callOauthProvider('/api/harvest')">Harvest</a>
+        <a ng-click="vm.callOauthProvider('/api/auth/harvest')">Harvest</a>
       </li>
       <li class="dropdown" uib-dropdown>
         <a class="dropdown-toggle user-header-dropdown-toggle" uib-dropdown-toggle role="button">
